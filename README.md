@@ -1,6 +1,6 @@
 # VNes
 
-Este site tem como objetivo ser um console virtual, onde voce ter[a uma biblioteca de cartuchos para escolher e jogar.
+Este site tem como objetivo ser um console virtual, onde voce ter a uma biblioteca de cartuchos para escolher e jogar.
 
 O frontend da aplicação será desenvolvido com Angular e o backend foi simulado pela implementação de uma API Fake, usando o JSON Server.
 
