@@ -2,6 +2,8 @@
 
 Esta aplicação tem como objetivo ser um console virtual, onde o usuário terá uma biblioteca de cartuchos para escolher e jogar.
 
+Os jogos serão emulados via bilbioteca JSNes, e as imagens de capa e infos sobre o jogo serão obtidas por meio de uma API pública.
+
 O frontend da aplicação será desenvolvido com Angular e o backend foi simulado pela implementação de uma API Fake, usando o JSON Server.
 
 ## Endereço de Deploy - GitHub Pages
