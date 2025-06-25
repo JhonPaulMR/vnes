@@ -1,4 +1,64 @@
-<div class="container mx-auto px-4 py-8 text-center">
-  <h1 class="text-3xl font-bold mb-4">Configurações do Console</h1>
-  <p class="text-lg">Aqui você poderá configurar seu console virtual.</p>
+<!-- Container principal com estilos Tailwind -->
+<div class="max-w-2xl mx-auto my-8 p-6 sm:p-8 bg-gray-800 text-gray-200 rounded-lg shadow-xl">
+  <h2 class="text-2xl sm:text-3xl font-bold text-white mb-6 border-b-2 border-red-600 pb-3">
+    Configurações do Console
+  </h2>
+
+  <!-- Seção de Volume -->
+  <div class="mb-8">
+    <h3 class="text-xl font-semibold text-white mb-4">Volume</h3>
+    <div class="flex items-center gap-4 bg-gray-900/50 p-4 rounded-md">
+      <label for="volume-slider" class="w-28 text-sm font-medium">
+        Geral: {{ volume * 100 | number:'1.0-0' }}%
+      </label>
+      <input 
+        id="volume-slider"
+        type="range" 
+        min="0" 
+        max="1" 
+        step="0.01" 
+        [value]="volume"
+        (input)="onVolumeChange($event)"
+        class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-red-600">
+    </div>
+  </div>
+
+  <!-- Seção de Controles -->
+  <div>
+    <h3 class="text-xl font-semibold text-white mb-4">Controles (Jogador 1)</h3>
+    
+    <!-- Mensagem de instrução -->
+    <div *ngIf="listeningFor; else defaultInstruction" class="bg-yellow-500/20 border border-yellow-500 text-yellow-300 p-3 rounded-md mb-4 text-center text-sm">
+      Pressione uma tecla para associar a: <strong class="font-bold">{{ getControlName(listeningFor) }}</strong>
+    </div>
+    <ng-template #defaultInstruction>
+      <p class="text-gray-400 text-sm text-center mb-4">Clique em "Remapear" para alterar uma tecla.</p>
+    </ng-template>
+
+    <!-- Lista de Controles -->
+    <ul class="space-y-2">
+      <li *ngFor="let control of controls" class="flex items-center justify-between p-3 bg-gray-900/50 rounded-md transition-colors duration-200 hover:bg-gray-700/50">
+        <span class="font-medium w-1/4">{{ control.name }}</span>
+        <span class="font-mono bg-gray-900 px-3 py-1 rounded-md text-center w-1/3 text-red-400">
+          {{ getKeyForButton(control.button) || 'N/A' }}
+        </span>
+        <button 
+          (click)="startRemapping(control.button)"
+          [ngClass]="{
+            'bg-red-600 hover:bg-red-700': listeningFor !== control.button,
+            'bg-yellow-500 text-black font-bold animate-pulse': listeningFor === control.button
+          }"
+          class="w-1/3 ml-4 px-3 py-2 text-sm font-semibold text-white rounded-md transition-colors duration-200">
+          {{ listeningFor === control.button ? 'Ouvindo...' : 'Remapear' }}
+        </button>
+      </li>
+    </ul>
+
+    <!-- Botão de Restaurar Padrões -->
+    <div class="mt-8 text-right">
+       <button (click)="resetToDefaults()" class="px-5 py-2 bg-gray-600 hover:bg-gray-500 text-white text-sm font-medium rounded-md transition-colors duration-200">
+         Restaurar Padrões
+       </button>
+    </div>
+  </div>
 </div>

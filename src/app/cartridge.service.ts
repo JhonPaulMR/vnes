@@ -1,48 +1,85 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import { Cartridge } from './cartridge.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartridgeService {
+  private http = inject(HttpClient);
+  private apiUrl = 'http://localhost:3000/cartridges';
 
-  // Retornamos com a lista de cartuchos padrão.
-  private cartridges: Cartridge[] = [
-    {
-      id: 1,
-      title: 'Super Mario Bros',
-      description: 'Um jogo de plataforma clássico.',
-      imageUrl: 'https://images.igdb.com/igdb/image/upload/t_cover_big/co6pib.webp',
-      genre: 'Plataforma',
-      releaseYear: 1985
-    },
-    {
-      id: 2,
-      title: 'Contra (1987)',
-      description: 'Um jogo de tiro 2D clássico.',
-      imageUrl: 'https://upload.wikimedia.org/wikipedia/en/6/65/Contra_cover.jpg',
-      genre: 'Tiro',
-      releaseYear: 1989
-    },
-    {
-      id: 3,
-      title: "Kirby's Adventure",
-      description: "Kirby's Adventure is a 1993 action-platform video game developed by HAL Laboratory and published by Nintendo for the Nintendo Entertainment System. It is the second game in the Kirby series after his debut on the Game Boy and the first to include the Copy ability, which allows Kirby to gain power-ups from eating certain enemies. It is the only NES game in the Kirby series, released towards the end of the NES's lifespan and pushed the palette and graphical capabilities of the NES to its limit.",
-      imageUrl: 'https://upload.wikimedia.org/wikipedia/en/a/ae/Kirby%27s_Adventure_Coverart.png',
-      genre: 'Plataforma',
-      releaseYear: 1985
-    }
-  ];
-
-  constructor() { }
-
-  // O método volta a ser síncrono, retornando o array diretamente.
-  getCartridges(): Cartridge[] {
-    return this.cartridges;
+  /**
+   * Busca todos os cartuchos da API.
+   * Retorna um Observable com um array de Cartridge.
+   */
+  getCartridges(): Observable<Cartridge[]> {
+    return this.http.get<Cartridge[]>(this.apiUrl).pipe(
+      tap(data => console.log('Cartuchos recebidos:', data)),
+      catchError(this.handleError)
+    );
   }
 
-  // O método volta a usar .find() no array local.
-  getCartridge(id: number): Cartridge | undefined {
-    return this.cartridges.find(c => c.id === id);
+  /**
+   * Busca um cartucho específico pelo seu ID.
+   * Retorna um Observable com o Cartridge encontrado.
+   */
+  getCartridge(id: number): Observable<Cartridge> {
+    const url = `${this.apiUrl}/${id}`;
+    return this.http.get<Cartridge>(url).pipe(
+      tap(data => console.log('Cartucho recebido:', data)),
+      catchError(this.handleError)
+    );
+  }
+
+  /**
+   * Adiciona um novo cartucho. (Exemplo de operação POST)
+   */
+  addCartridge(cartridge: Omit<Cartridge, 'id'>): Observable<Cartridge> {
+    return this.http.post<Cartridge>(this.apiUrl, cartridge).pipe(
+      tap(data => console.log('Cartucho adicionado:', data)),
+      catchError(this.handleError)
+    );
+  }
+
+  /**
+   * Atualiza um cartucho existente. (Exemplo de operação PUT)
+   */
+  updateCartridge(cartridge: Cartridge): Observable<void> {
+    const url = `${this.apiUrl}/${cartridge.id}`;
+    return this.http.put<void>(url, cartridge).pipe(
+      tap(() => console.log(`Cartucho ${cartridge.id} atualizado`)),
+      catchError(this.handleError)
+    );
+  }
+
+  /**
+   * Remove um cartucho. (Exemplo de operação DELETE)
+   */
+  deleteCartridge(id: number): Observable<void> {
+    const url = `${this.apiUrl}/${id}`;
+    return this.http.delete<void>(url).pipe(
+      tap(() => console.log(`Cartucho ${id} removido`)),
+      catchError(this.handleError)
+    );
+  }
+
+  /**
+   * Trata erros de requisições HTTP.
+   */
+  private handleError(error: HttpErrorResponse): Observable<never> {
+    let errorMessage = 'Ocorreu um erro desconhecido!';
+    if (error.error instanceof ErrorEvent) {
+      // Erro do lado do cliente
+      errorMessage = `Erro: ${error.error.message}`;
+    } else {
+      // Erro do lado do servidor
+      errorMessage = `Código do erro: ${error.status}\nMensagem: ${error.message}`;
+    }
+    console.error(errorMessage);
+    // Retorna um observable com uma mensagem de erro amigável para o usuário
+    return throwError(() => new Error('Algo deu errado; por favor, tente novamente mais tarde.'));
   }
 }
