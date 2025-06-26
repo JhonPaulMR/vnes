@@ -35,6 +35,24 @@
       "romUrl": "https://raw.githubusercontent.com/JhonPaulMR/vnes-assets/refs/heads/master/roms/Legend%20of%20Zelda,%20The%20(U)%20(V1.1)%20%5B!%5D.nes",
       "genre": "Aventura",
       "releaseYear": 1986
+    },
+      {
+      "id": 5,
+      "title": "Megaman 2",
+      "description": "Um jogo de plataforma e ação onde o jogador controla o robô Megaman para derrotar os robôs de Dr.Wily",
+      "imageUrl": "https://raw.githubusercontent.com/JhonPaulMR/vnes-assets/refs/heads/master/img/MegaMan%202.jpg",
+      "romUrl": "https://raw.githubusercontent.com/JhonPaulMR/vnes-assets/refs/heads/master/roms/Mega%20Man%202%20(U)%20(Capcom%20Town)%20%5B!%5D.nes",
+      "genre": "Aventura",
+      "releaseYear": 1988
+    },
+      {
+      "id": 6,
+      "title": "Super Mario Bros 3",
+      "description": "Continuação da saga de Mario, onde ele deve resgatar a princesa Peach novamente, agora com novos poderes e mundos.",
+      "imageUrl": "https://raw.githubusercontent.com/JhonPaulMR/vnes-assets/refs/heads/master/img/MegaMan%202.jpg",
+      "romUrl": "https://raw.githubusercontent.com/JhonPaulMR/vnes-assets/refs/heads/master/roms/Super%20Mario%20Bros.%203%20(U)%20(V1.1)%20%5B!%5D.nes",
+      "genre": "Aventura",
+      "releaseYear": 1988
     }
   ]
 }
