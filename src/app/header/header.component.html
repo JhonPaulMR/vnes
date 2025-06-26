@@ -5,16 +5,14 @@
     </a>
     <div class="hidden md:flex items-center space-x-4">
       <a routerLink="/" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-lg font-medium">Início</a>
-      <a routerLink="/cartridges" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-lg font-medium">Jogos</a>
-      <a routerLink="/console" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-lg font-medium">Configurações</a>
       
-      <!-- Se o utilizador não estiver logado, mostra "Registe-se" -->
       <div *ngIf="!currentUser()">
-        <a routerLink="/auth" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-lg font-medium">Registe-se</a>
+        <a routerLink="/auth" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-lg font-medium">Login / Registar</a>
       </div>
 
-      <!-- Se o utilizador estiver logado, mostra o seu username e o botão "Sair" -->
       <div *ngIf="currentUser()" class="flex items-center space-x-4">
+        <a routerLink="/cartridges" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-lg font-medium">Jogos</a>
+        <a routerLink="/console" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-lg font-medium">Configurações</a>
         <span class="text-gray-200 text-lg">Olá, {{ currentUser()?.username }}</span>
         <button (click)="logout()" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-lg font-medium">
           Sair
