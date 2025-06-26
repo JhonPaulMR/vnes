@@ -1,15 +1,22 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
-
 import { routes } from './app.routes';
-import { authInterceptor } from './auth.interceptor'; // 1. Importe nosso interceptor
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    // 2. Configure o HttpClient para usar o interceptor
-    provideHttpClient(withInterceptors([authInterceptor]))
+
+    // 1. Registra o AuthInterceptor como um provedor de interceptador HTTP
+    { 
+      provide: HTTP_INTERCEPTORS, 
+      useClass: AuthInterceptor, 
+      multi: true 
+    },
+    
+    // 2. Configura o HttpClient para usar os interceptores fornecidos por Injeção de Dependência (DI)
+    provideHttpClient(withInterceptorsFromDi())
   ]
 };
