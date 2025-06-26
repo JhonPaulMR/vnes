@@ -1,73 +1,73 @@
-<div *ngIf="cartridge; else loadingOrError" class="container mx-auto px-4 py-8 text-white">
-
-  <div class="text-center mb-8">
-    <h1 class="text-5xl font-bold font-pixelify text-yellow-400 mb-2">{{ cartridge.title }}</h1>
-    <p class="text-lg text-gray-300">{{ cartridge.genre }} - {{ cartridge.releaseYear }}</p>
-  </div>
-
-<div class="flex flex-col md:flex-row gap-8 mb-8">
-  <div class="md:w-1/3 flex-shrink-0">
-
-    <img [src]="cartridge.imageUrl" [alt]="'Capa do jogo ' + cartridge.title" class="rounded-lg shadow-lg w-full">
+<div *ngIf="cartridge; else notFound" class="container mx-auto px-4 py-8 md:w-2/3 lg:w-1/2">
+  <div class="bg-gray-800 rounded-lg shadow-lg overflow-hidden">
     
-  </div>
+    <div class="bg-black">
+      <img *ngIf="!isPlaying" class="w-full h-auto object-contain max-h-96" [src]="cartridge.imageUrl" [alt]="cartridge.title">
 
-  <div class="md:w-2/3">
-    <h2 class="text-3xl font-semibold font-pixelify border-b-2 border-red-500 pb-2 mb-4">Sobre o Jogo</h2>
-    <p class="text-gray-200 leading-relaxed text-justify">
-      {{ cartridge.description }}
-    </p>
+      <div *ngIf="isPlaying" class="relative w-full aspect-[256/240]">
+        <div *ngIf="isLoadingRom" class="absolute inset-0 flex items-center justify-center text-white bg-black">
+          Carregando Jogo...
+        </div>
+        <div *ngIf="emulatorError" class="absolute inset-0 flex items-center justify-center text-center p-4 bg-red-900 bg-opacity-80 text-white">
+          {{ emulatorError }}
+        </div>
+        
+        <canvas #nesCanvas 
+                width="256" 
+                height="240" 
+                class="w-full h-full"
+                [style.image-rendering]="'pixelated'">
+        </canvas>
+      </div>
+
+      <div *ngIf="isPlaying" class="p-2 flex justify-end items-center border-t border-gray-700">
+        <button (click)="toggleFullscreen()" 
+                title="Alternar Tela Cheia"
+                class="p-2 rounded-full text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-red-600 transition-colors">
+          
+          <svg *ngIf="!isFullscreen" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5v4m0 0h4" />
+          </svg>
+          
+          <svg *ngIf="isFullscreen" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 4v4m0 0h4M19 4l-5 5M5 20v-4m0 0H9m-4 0l5-5m10-5h-4m0 0V5m4 0l-5 5m-5 10l5-5h-4m0 0v4" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="p-6">
+      <h1 class="text-3xl font-bold mb-2">{{ cartridge.title }}</h1>
+      <p class="text-gray-400 mb-4">
+        {{ cartridge.genre }} - {{ cartridge.releaseYear }}
+      </p>
+      <p class="text-lg whitespace-pre-wrap">{{ cartridge.description }}</p>
+
+      <div class="flex flex-wrap justify-center gap-4 mt-6">
+        <a routerLink="/cartridges" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition-colors duration-200">
+          Voltar para a Coleção
+        </a>
+
+        <button *ngIf="!isPlaying" (click)="startGame()" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition-colors duration-200">
+          Jogar
+        </button>
+
+        <button *ngIf="isPlaying" (click)="stopGame()" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition-colors duration-200">
+          Parar Jogo
+        </button>
+      </div>
+    </div>
   </div>
 </div>
 
-  <div class="bg-gray-800 p-4 rounded-lg shadow-2xl border border-gray-700">
-    <h2 class="text-3xl font-semibold font-pixelify text-center mb-4">Emulador V-NES</h2>
-
-    <div *ngIf="isPlaying" class="relative bg-black mb-4 w-full" style="aspect-ratio: 240 / 224;">
-      <canvas #nesCanvas class="absolute top-0 left-0 w-full h-full"></canvas>
-      
-      <button (click)="toggleFullscreen()" class="absolute bottom-2 right-2 text-white bg-black bg-opacity-50 hover:bg-opacity-75 p-2 rounded-full transition-opacity opacity-50 hover:opacity-100">
-        <ng-container *ngIf="!isFullscreen; else exitFullscreenIcon">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 1v4m0 0h-4m4 0l-5-5" /></svg>
-        </ng-container>
-        <ng-template #exitFullscreenIcon>
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 4l-5 5m0 0l-5-5m5 5v11" /></svg>
-        </ng-template>
-      </button>
+<ng-template #notFound>
+  <div class="text-center py-8">
+    <div *ngIf="error; else loading">
+      <h1 class="text-2xl font-bold text-red-500">{{ error }}</h1>
+      <a routerLink="/cartridges" class="text-red-500 hover:underline mt-4 inline-block">Voltar para a Coleção</a>
     </div>
-
-    <div class="text-center">
-      <div *ngIf="isLoadingRom" class="text-yellow-400">
-        <p>Carregando ROM...</p>
-      </div>
-
-      <div *ngIf="emulatorError" class="text-red-500 p-2 bg-red-900 bg-opacity-50 rounded mb-2">
-        <p>{{ emulatorError }}</p>
-      </div>
-
-      <button *ngIf="!isPlaying" (click)="startGame()" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition-colors duration-200">
-        Jogar Agora
-      </button>
-
-      <button *ngIf="isPlaying" (click)="stopGame()" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition-colors duration-200">
-        Parar Jogo
-      </button>
-    </div>
-  </div>
-
-  <div class="text-center mt-8">
-    <a routerLink="/cartridges" class="text-red-400 hover:text-yellow-400 transition-colors duration-200">&larr; Voltar para a lista de cartuchos</a>
-  </div>
-</div>
-
-<ng-template #loadingOrError>
-  <div class="text-center py-20">
-    <p *ngIf="!error; else errorState" class="text-2xl text-gray-400">Carregando detalhes do cartucho...</p>
-    <ng-template #errorState>
-      <div class="text-2xl text-red-500">
-        <p>{{ error }}</p>
-        <a routerLink="/cartridges" class="text-sm text-red-400 hover:text-yellow-400 transition-colors duration-200 mt-4 block">&larr; Voltar para a lista de cartuchos</a>
-      </div>
+    <ng-template #loading>
+       <h1 class="text-2xl font-bold">Carregando cartucho...</h1>
     </ng-template>
   </div>
 </ng-template>

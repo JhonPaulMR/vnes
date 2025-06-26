@@ -30,23 +30,31 @@ export class GameDetailComponent implements OnInit, OnDestroy {
   private cdr = inject(ChangeDetectorRef); // Para forçar a detecção de mudanças
 
   ngOnInit(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    if (id) {
-      // ===== INÍCIO DAS CORREÇÕES =====
-      this.cartridgeService.getCartridgeById(id).subscribe({
-        next: (data: Cartridge) => { 
-          this.cartridge = data; 
-        },
-        error: (err: any) => {
-          console.error('Falha ao buscar detalhes do cartucho', err);
-          this.error = "Falha ao carregar os dados do jogo.";
-        }
-      });
-      // ===== FIM DAS CORREÇÕES =====
-    }
+    // A forma correta e mais segura de ler o parâmetro da rota
+    this.route.paramMap.subscribe(params => {
+      const idString = params.get('id'); // Pega o ID como string
 
-    // Adiciona o listener para o evento de mudança de tela cheia
-    document.addEventListener('fullscreenchange', this.onFullscreenChange.bind(this));
+      // 1. Verifica se o ID existe na URL
+      if (idString) {
+        const id = Number(idString); // 2. Converte para número APENAS se existir
+
+        // 3. Chama o serviço para buscar o cartucho
+        this.cartridgeService.getCartridgeById(id).subscribe({
+          next: (data: Cartridge) => {
+            this.cartridge = data;
+            this.error = null; // Limpa qualquer erro anterior em caso de sucesso
+          },
+          error: (err: any) => {
+            console.error(`Falha ao buscar detalhes do cartucho com ID ${id}`, err);
+            this.error = "Falha ao carregar os dados do jogo.";
+          }
+        });
+      } else {
+        // 4. Lida com o caso em que a URL não tem um ID
+        console.error("Nenhum ID de cartucho encontrado na rota.");
+        this.error = "ID do jogo não especificado na URL.";
+      }
+    });
   }
 
   ngOnDestroy(): void {
