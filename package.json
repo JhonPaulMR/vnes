@@ -7,7 +7,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "json-server": "json-server --watch db.json"
+    "serve:api": "json-server --watch db.json",
+    "deploy": "ng build --configuration production --base-href \"https://<SEU_USERNAME>.github.io/<NOME_DO_REPOSITORIO>/\" && npx ngh --dir=dist/vnes/browser"
   },
   "private": true,
   "dependencies": {
@@ -31,6 +32,7 @@
     "@angular/cli": "^19.2.12",
     "@angular/compiler-cli": "^19.2.0",
     "@types/jasmine": "~5.1.0",
+    "angular-cli-ghpages": "^2.0.3",
     "autoprefixer": "^10.4.21",
     "jasmine-core": "~5.6.0",
     "karma": "~6.4.0",
