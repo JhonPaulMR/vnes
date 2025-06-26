@@ -19,12 +19,26 @@
         </button>
       </div>
     </div>
-    <div class="md:hidden">
-      <button class="text-gray-300 hover:text-white focus:outline-none focus:text-white">
-        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
-        </svg>
-      </button>
+    <div class="md:hidden flex space-x-4 items-center">
+      <a routerLink="/" title="Início" class="text-gray-300 hover:text-white p-2">
+        <fa-icon [icon]="iconHome" class="h-6 w-6"></fa-icon>
+      </a>
+      <ng-container *ngIf="!currentUser()">
+        <a routerLink="/auth" title="Login/Registar" class="text-gray-300 hover:text-white p-2">
+          <fa-icon [icon]="iconLogin" class="h-6 w-6"></fa-icon>
+        </a>
+      </ng-container>
+      <ng-container *ngIf="currentUser()">
+        <a routerLink="/cartridges" title="Jogos" class="text-gray-300 hover:text-white p-2">
+          <fa-icon [icon]="iconCart" class="h-6 w-6"></fa-icon>
+        </a>
+        <a routerLink="/console" title="Configurações" class="text-gray-300 hover:text-white p-2">
+          <fa-icon [icon]="iconSettings" class="h-6 w-6"></fa-icon>
+        </a>
+        <button (click)="logout()" title="Sair" class="text-gray-300 hover:text-white p-2">
+          <fa-icon [icon]="iconLogout" class="h-6 w-6"></fa-icon>
+        </button>
+      </ng-container>
     </div>
   </nav>
 </header>
