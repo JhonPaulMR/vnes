@@ -52,7 +52,7 @@ export class GameDetailComponent implements OnInit, OnDestroy {
       } else {
         // 4. Lida com o caso em que a URL não tem um ID
         console.error("Nenhum ID de cartucho encontrado na rota.");
-        this.error = "ID do jogo não especificado na URL.";
+        this.error = "ID do jogo não especificado na URL";
       }
     });
   }
