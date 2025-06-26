@@ -8,7 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:api": "json-server --watch db.json",
-    "deploy": "ng build --configuration production --base-href \"https://<SEU_USERNAME>.github.io/<NOME_DO_REPOSITORIO>/\" && npx ngh --dir=dist/vnes/browser"
+    "deploy": "ng build --configuration production --base-href \"https://JhonPaulMR.github.io/vnes/\" && npx ngh --dir=dist/vnes/browser"
   },
   "private": true,
   "dependencies": {
