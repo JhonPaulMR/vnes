@@ -32,39 +32,45 @@ export class GameDetailComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     if (id) {
-      this.cartridgeService.getCartridge(id).subscribe({
-        next: (data) => { this.cartridge = data; },
-        error: (err) => {
-          this.error = 'Não foi possível carregar os detalhes do cartucho.';
-          console.error(err);
+      // ===== INÍCIO DAS CORREÇÕES =====
+      this.cartridgeService.getCartridgeById(id).subscribe({
+        next: (data: Cartridge) => { 
+          this.cartridge = data; 
+        },
+        error: (err: any) => {
+          console.error('Falha ao buscar detalhes do cartucho', err);
+          this.error = "Falha ao carregar os dados do jogo.";
         }
       });
+      // ===== FIM DAS CORREÇÕES =====
     }
-    // Adiciona um listener para o evento de mudança de tela cheia do navegador
+
+    // Adiciona o listener para o evento de mudança de tela cheia
     document.addEventListener('fullscreenchange', this.onFullscreenChange.bind(this));
   }
 
   ngOnDestroy(): void {
-    this.emulatorService.stop();
-    // Remove o listener para evitar vazamentos de memória
+    // Remove o listener para evitar vazamentos de memória quando o componente é destruído
     document.removeEventListener('fullscreenchange', this.onFullscreenChange.bind(this));
+    // Garante que o emulador seja parado ao sair da página
+    this.emulatorService.stop();
   }
 
-  playGame(): void {
-    if (!this.cartridge?.romUrl) return;
+  /**
+   * Inicia o processo de carregamento da ROM e do emulador.
+   */
+  async startGame(): Promise<void> {
+    if (!this.cartridge?.romUrl) {
+      this.emulatorError = "URL da ROM não encontrada.";
+      return;
+    }
 
     this.isPlaying = true;
     this.isLoadingRom = true;
     this.emulatorError = null;
 
+    // Usamos um pequeno timeout para garantir que a UI tenha tempo de renderizar a mensagem de "loading"
     setTimeout(async () => {
-      if (!this.nesCanvas) {
-        this.emulatorError = "Erro crítico: O elemento canvas não foi encontrado no DOM.";
-        this.isLoadingRom = false;
-        this.isPlaying = false;
-        return;
-      }
-      
       try {
         const response = await fetch(this.cartridge!.romUrl);
         if (!response.ok) throw new Error(`Falha ao baixar a ROM (HTTP ${response.status})`);
