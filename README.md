@@ -8,10 +8,11 @@ O frontend da aplicação será desenvolvido com Angular e o backend foi simulad
 
 ## Endereço de Deploy - GitHub Pages
 
-Indisponivel
+https://jhonpaulmr.github.io/vnes/
 
 ## Protótipo Figma
-Indisponivel
+
+https://www.figma.com/design/xaKfFKIfuSVbE733aJyuDW/Projeto---VNes?node-id=0-1&p=f&t=dgNcg8dyjl2AIC7y-0
 
 ## Checklist
 #### RA1 - Prototipar e projetar interfaces gráficas de usuário, considerando princípios de usabilidade e experiência do usuário.
