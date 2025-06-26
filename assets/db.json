@@ -1,0 +1,58 @@
+{
+  "cartridges": [
+    {
+      "id": 1,
+      "title": "Super Mario Bros",
+      "description": "Um jogo de plataforma clássico onde Mario deve resgatar a Princesa Peach do vilão Bowser.",
+      "imageUrl": "https://raw.githubusercontent.com/JhonPaulMR/vnes-assets/refs/heads/master/img/Super%20Mario%20Bros%201.webp",
+      "romUrl": "https://raw.githubusercontent.com/JhonPaulMR/vnes-assets/refs/heads/master/roms/Super%20Mario%20Bros.%20-%2025th%20Anniversary%20(E)%20(VC)%20%5B!%5D.nes",
+      "genre": "Plataforma",
+      "releaseYear": 1985
+    },
+    {
+      "id": 2,
+      "title": "Contra",
+      "description": "Um jogo de tiro 2D clássico de correr e atirar.",
+      "imageUrl": "https://raw.githubusercontent.com/JhonPaulMR/vnes-assets/refs/heads/master/img/Contra.jpg",
+      "romUrl": "https://raw.githubusercontent.com/JhonPaulMR/vnes-assets/refs/heads/master/roms/Contra%20(U)%20%5B!%5D.nes",
+      "genre": "Tiro",
+      "releaseYear": 1988
+    },
+    {
+      "id": 3,
+      "title": "Kirby's Adventure",
+      "description": "A primeira aparição de Kirby no NES, introduzindo a habilidade de copiar poderes dos inimigos.",
+      "imageUrl": "https://raw.githubusercontent.com/JhonPaulMR/vnes-assets/refs/heads/master/img/KirbysAdventure.png",
+      "romUrl": "https://raw.githubusercontent.com/JhonPaulMR/vnes-assets/refs/heads/master/roms/Kirby's%20Adventure%20(U)%20(V1.1)%20%5B!%5D.nes",
+      "genre": "Plataforma",
+      "releaseYear": 1993
+    },
+    {
+      "id": 4,
+      "title": "The Legend of Zelda",
+      "description": "Um jogo de ação e aventura onde o herói Link explora o reino de Hyrule para resgatar a princesa Zelda.",
+      "imageUrl": "https://github.com/JhonPaulMR/vnes-assets/raw/refs/heads/master/img/The%20Legend%20of%20Zelda.webp",
+      "romUrl": "https://raw.githubusercontent.com/JhonPaulMR/vnes-assets/refs/heads/master/roms/Legend%20of%20Zelda,%20The%20(U)%20(V1.1)%20%5B!%5D.nes",
+      "genre": "Aventura",
+      "releaseYear": 1986
+    },
+      {
+      "id": 5,
+      "title": "Megaman 2",
+      "description": "Um jogo de plataforma e ação onde o jogador controla o robô Megaman para derrotar os robôs de Dr.Wily",
+      "imageUrl": "https://raw.githubusercontent.com/JhonPaulMR/vnes-assets/refs/heads/master/img/MegaMan%202.jpg",
+      "romUrl": "https://raw.githubusercontent.com/JhonPaulMR/vnes-assets/refs/heads/master/roms/Mega%20Man%202%20(U)%20(Capcom%20Town)%20%5B!%5D.nes",
+      "genre": "Aventura",
+      "releaseYear": 1988
+    },
+      {
+      "id": 6,
+      "title": "Super Mario Bros 3",
+      "description": "Continuação da saga de Mario, onde ele deve resgatar a princesa Peach novamente, agora com novos poderes e mundos.",
+      "imageUrl": "https://raw.githubusercontent.com/JhonPaulMR/vnes-assets/refs/heads/master/img/MegaMan%202.jpg",
+      "romUrl": "https://raw.githubusercontent.com/JhonPaulMR/vnes-assets/refs/heads/master/roms/Super%20Mario%20Bros.%203%20(U)%20(V1.1)%20%5B!%5D.nes",
+      "genre": "Aventura",
+      "releaseYear": 1988
+    }
+  ]
+}
